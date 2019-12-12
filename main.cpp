@@ -15,9 +15,7 @@ struct Transform
     Function f;
     double color = 0.0;
 
-    Transform(Function fn, double col):
-	f(fn), color(col)
-    {}
+    Transform(Function fn, double col):f(fn), color(col){}
 };
 
 void fn_1(double& x, double& y)
@@ -52,24 +50,25 @@ int main()
 
     Transform t1(fn_1,0.0);
     transforms.emplace_back(t1);
-    Transform t2(fn_2,0.0);
+    Transform t2(fn_2,0.5);
     transforms.emplace_back(t2);
-    Transform t3(fn_3,0.0);
+    Transform t3(fn_3,1.0);
     transforms.emplace_back(t3);
 
-    double n = 3;
-    double max_time = 1000;       //number of iterations to make
-    uniform_int_distribution<int> dis_n(0,n-1);
+    int num_fn = 3;
+    int n = 0;
+    int  max_time = 100000;       //number of iterations to make
+    uniform_int_distribution<int> dis_n(0,num_fn-1);
 
     //algorithm for implementing the Chaos Game
     for(int i = 0; i < max_time; i++)
     {
-        //print(&x, &y);
+	n = dis_n(engine);
 	transforms[n].f(x,y);
 	c = (c + transforms[n].color) / 2.0;
+
         if(i >= 20)
         {
-            cout<<"Now Plotting"<<endl;
             //plotting...
 	    x_data.push_back(x);
 	    y_data.push_back(y);
@@ -77,11 +76,12 @@ int main()
         }
 
     }
-    return 0;
 
-    //code provide for visualization
+   //code provide for visualization
     py::PythonVisualizer pyvis({"../.."});
     auto figure = pyvis.make_new_figure("fractal flame");
     pyvis.plot(figure, "circle", x_data, y_data, py::kwarg("color", c_data));
     pyvis.generate_html(figure, "flame.html");
+   
+    return 0;
 }
