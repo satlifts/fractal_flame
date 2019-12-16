@@ -46,7 +46,7 @@ void fn_3(double& x, double& y)
 }
 void sphere(double& x, double& y)
 {
-        double r = 1/(sqrt(x*x) + sqrt(y*y));
+        double r = 1/(sqrt(((x*x) + (y*y))));
         double func = 1/(r*r);
         x = x * func; 
         y = y * func;
