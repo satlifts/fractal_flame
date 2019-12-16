@@ -1,0 +1,19 @@
+executable: main.exe
+test-cases:
+    bad:
+        argv: ["100"]
+        ofstreams:
+            - base-file: test_files/flame_bad.dat
+              test-file: flame.dat
+    good:
+        argv: ["1000"]
+        ofstreams:
+            - base-file: test_files/flame_good.dat
+              test-file: flame.dat
+    better:
+        argv: ["10000"]
+        ofstreams:
+            - base-file: test_files/flame_better.dat
+              test-file: flame.dat
+
+
