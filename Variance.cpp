@@ -1,4 +1,8 @@
-//This is the main file for fractal flame project
+//This is the variance added to the main file
+/*
+Author: Brandon
+Contributor: Sat
+*/
 #include "pyvis/PythonVisualizer.h"
 
 #include <cmath>
