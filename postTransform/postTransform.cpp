@@ -10,15 +10,14 @@ Modifier: Sat
 #include <random>
 #include <type_traits>
 #include <iostream>
+#include "writer.h"
 
 using namespace std;
 using Function = add_pointer_t<void(double&, double&)>;
-
 struct Transform
 {
-    Function f;
+    Function f ;
     double color = 0.0;
-
     Transform(Function fn, double col):f(fn), color(col){}
 };
 
@@ -45,8 +44,21 @@ void fn_3(double& x, double& y)
     x = (x/2);
     y = (y+1)/2;
 }
-int main()
+void sphere(double& x, double& y)
 {
+        double r = 1/(sqrt(((x*x) + (y*y))));
+        double func = 1/(r*r);
+        x = x * func; 
+        y = y * func;
+
+}
+int main(int argc, char *argv[])
+{
+    if(argc != 2)
+    {
+	cerr << "Amount of iteration not found!" << endl;
+        return 1;
+    }
     mt19937 engine;
     uniform_real_distribution<double> dis(-1.0, 1.0);
     uniform_real_distribution<double> dis_c(0.0, 1.0);
@@ -67,7 +79,7 @@ int main()
 
     int num_fn = 3;
     int n = 0;
-    int  max_time = 100000;       //number of iterations to make
+    int max_time = stoi(argv[1]);       //number of iterations to make
     uniform_int_distribution<int> dis_n(0,num_fn-1);
 
     //algorithm for implementing the Chaos Game
@@ -80,8 +92,9 @@ int main()
     {
         fn_1b(x,y); 
     }
-        if(i >= 1000)
-        {
+    //sphere(x,y);
+        if(i >= 20)
+        { 
             //plotting...
 	    x_data.push_back(x);
 	    y_data.push_back(y);
@@ -89,7 +102,7 @@ int main()
         }
 
     }
-
+    write_data(x_data, y_data, c_data);
    //code provide for visualization
     py::PythonVisualizer pyvis({"../.."});
     auto figure = pyvis.make_new_figure("fractal flame");
