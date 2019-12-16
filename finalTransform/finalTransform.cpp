@@ -10,6 +10,8 @@ Modifier: Uchenna
 #include <random>
 #include <type_traits>
 #include <iostream>
+#include <string>
+#include "writer.h"
 
 using namespace std;
 using Function = add_pointer_t<void(double&, double&)>;
@@ -51,8 +53,13 @@ void fn_4(double& x, double& y)
     x = (x*x);
     y = (y*y);
 }
-int main()
+int main(int argc, char *argv[])
 {
+    if(argc != 2)
+    {
+	cerr << "Number of iteration not found!" << endl;
+	return 1;
+    }
     mt19937 engine;
     uniform_real_distribution<double> dis(-1.0, 1.0);
     uniform_real_distribution<double> dis_c(0.0, 1.0);
@@ -73,7 +80,7 @@ int main()
 
     int num_fn = 3;
     int n = 0;
-    int  max_time = 100000;       //number of iterations to make
+    int  max_time = stoi(argv[1]);       //number of iterations to make
     uniform_int_distribution<int> dis_n(0,num_fn-1);
 
     //algorithm for implementing the Chaos Game
@@ -84,7 +91,7 @@ int main()
     fn_4(x,y);
 	c = (c + transforms[n].color) / 2.0;
    
-        if(i >= 1000)
+        if(i >= 20)
         {
             //plotting...
 	    x_data.push_back(x);
@@ -93,7 +100,8 @@ int main()
         }
 
     }
-
+   //code to create a data file for testing
+    write_data(x_data, y_data, c_data);
    //code provide for visualization
     py::PythonVisualizer pyvis({"../.."});
     auto figure = pyvis.make_new_figure("fractal flame");
