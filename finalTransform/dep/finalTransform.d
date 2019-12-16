@@ -69,4 +69,4 @@ obj/finalTransform.o: finalTransform.cpp \
  /usr/local/anaconda/include/python3.6m/pystrcmp.h \
  /usr/local/anaconda/include/python3.6m/dtoa.h \
  /usr/local/anaconda/include/python3.6m/fileutils.h \
- /usr/local/anaconda/include/python3.6m/pyfpe.h
+ /usr/local/anaconda/include/python3.6m/pyfpe.h ../include/writer.h
